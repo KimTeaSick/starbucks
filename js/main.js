@@ -3,6 +3,7 @@ const searchInputEl = searchElement.querySelector('input');
 const badgeEl = document.querySelector('header .badges');
 const fadeEls = document.querySelectorAll('.visual .fade-in');
 const spyEls = document.querySelectorAll('section.scroll-spy');
+const toTopEl = document.querySelector('#to-top');
 
 searchElement.addEventListener('click', function () {
   searchInputEl.focus();
@@ -26,13 +27,26 @@ window.addEventListener('scroll', _.throttle(function () {
       opacity: 0,
       display: 'none',
     });
+    gsap.to(toTopEl,.2,{
+      x: 0
+    });
   } else {
     gsap.to(badgeEl, 0.6, {
       opacity: 1,
       display: 'block',
     });
+    gsap.to(toTopEl,.2,{
+      x: 100
+    });
   }
 }, 300));
+
+
+toTopEl.addEventListener('click', ()=>{
+  gsap.to(window,.7,{
+    scrollTo: 0
+  })
+})
 
 fadeEls.forEach(function (e, i) {
   gsap.to(e, 1, {
@@ -100,3 +114,5 @@ spyEls.forEach((spyEl)=>{
     .addTo(new ScrollMagic.Controller());
 });
 
+const thisYear = document.querySelector('.this-year');
+thisYear.textContent = new Date().getFullYear();
